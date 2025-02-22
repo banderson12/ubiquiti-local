@@ -6,12 +6,31 @@ services:
     environment:
       - TZ=America/Denver
       - RUNAS_UID0=true
-      - UNIFI_GID=999
-      - UNIFI_UID=999
+      - UNIFI_GID=1000
+      - UNIFI_UID=1000
+      - BIND_PRIV=true
     volumes:
       - ./unifi:/unifi
-    network_mode: "host"
+    networks:
+      unifi_net:
+        ipv4_address: 192.168.1.200
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+      - "8880:8880"
+      - "8843:8843"
+      - "6789:6789"
+      - "3478:3478/udp"
+      - "10001:10001/udp"
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "/usr/local/bin/docker-healthcheck.sh || exit 1"]
       start_period: 5m
+
+networks:
+  unifi_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.1.0/24
+          gateway: 192.168.1.1

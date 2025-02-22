@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  unifi-controller:
+    image: jacobalberty/unifi:latest
+    container_name: unifi-controller
+    environment:
+      - TZ=America/Denver
+      - RUNAS_UID0=true
+      - UNIFI_GID=999
+      - UNIFI_UID=999
+    volumes:
+      - ./unifi:/unifi
+    network_mode: "host"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "/usr/local/bin/docker-healthcheck.sh || exit 1"]
+      start_period: 5m

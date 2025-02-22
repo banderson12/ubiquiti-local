@@ -1,0 +1,17 @@
+# UniFi data directory
+unifi/data/
+unifi/log/
+unifi/run/
+
+# SSL certificates
+unifi/cert/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
